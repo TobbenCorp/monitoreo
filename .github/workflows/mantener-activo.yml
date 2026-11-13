@@ -1,0 +1,24 @@
+# GitHub pausa los workflows programados de repos públicos sin actividad por 60
+# días. Este commit mensual mantiene activo el monitoreo.
+name: Mantener activo
+
+on:
+  schedule:
+    - cron: "0 12 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  latido:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          date -u +%FT%TZ > ultimo-latido.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ultimo-latido.txt
+          git commit -m "Latido mensual del monitoreo" && git push

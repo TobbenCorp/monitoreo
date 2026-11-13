@@ -1,0 +1,30 @@
+# Revisa cada 10 minutos que los sitios respondan. Si algo se cae, abre un aviso
+# (issue) asignado al administrador; cuando vuelve, lo cierra solo.
+# Repo público: los minutos de Actions son gratis e ilimitados.
+name: Monitoreo
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: monitoreo
+  cancel-in-progress: false
+
+jobs:
+  revisar:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Revisar sitios
+        run: bash revisar.sh
+      - name: Avisar
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash avisar.sh
