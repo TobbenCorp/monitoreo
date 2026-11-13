@@ -3,3 +3,4 @@ web.tobben.site | https://web.tobben.site/ | 200
 Asesor | https://web.tobben.site/asesor | 200
 Demo prueba | https://prueba.demos.tobben.site/ | 200
 Demo mascotas | https://mascotas.demos.tobben.site/ | 200
+Prueba simulada (se quita enseguida) | https://web.tobben.site/prueba-de-caida-inexistente | 200
