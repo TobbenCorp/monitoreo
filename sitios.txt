@@ -1,5 +1,22 @@
 # nombre | url | código esperado
+#
+# El código esperado es el que devuelve curl SIN seguir redirecciones, así que
+# un dominio que redirige se vigila con su 301 (eso también comprueba que el
+# redirect sigue vivo) y además se vigila su destino con 200.
+
+# --- AgenciaPro (web.tobben.site) ---
 web.tobben.site | https://web.tobben.site/ | 200
 Asesor | https://web.tobben.site/asesor | 200
+
+# --- Funeraria Rey David (sitio de cliente, 24/7) ---
+Funeraria (www) | https://www.funerariareydavid.cl/ | 200
+Funeraria (redirect) | https://funerariareydavid.cl/ | 301
+Funeraria panel | https://nuevo.funerariareydavid.cl/ | 200
+# La API no tiene raíz pública: responde 404 cuando está sana. Si la app de
+# detrás se cae, Caddy devuelve 502 y eso sí se detecta.
+Funeraria API | https://api.funerariareydavid.cl/ | 404
+
+# --- Demos (una línea por demo publicada en /opt/demos) ---
 Demo prueba | https://prueba.demos.tobben.site/ | 200
 Demo mascotas | https://mascotas.demos.tobben.site/ | 200
+Demo gastroapp | https://gastroapp.demos.tobben.site/ | 200
