@@ -12,7 +12,7 @@ while IFS='|' read -r nombre url esperado; do
   ok=""; ultimo=""
   for intento in 1 2 3; do
     ultimo="$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 -A 'TobbenCorp-monitoreo' "$url" || echo "000")"
-    [ "$ultimo" = "$esperado" ] && ok=1 && break
+    [ "$ultimo" = "$esperado" ] && ok=OK && break
     [ "$intento" -lt 3 ] && sleep 20
   done
   if [ -z "$ok" ]; then
@@ -28,5 +28,5 @@ while IFS='|' read -r nombre url esperado; do
       [ "$dias" -lt 14 ] && echo "- **$host**: el certificado HTTPS vence en $dias días ($fin)" >> certificados.txt
     fi
   fi
-  echo "$nombre: ${ok:+OK}${ok:-CAÍDO} ($ultimo)"
+  echo "$nombre: ${ok:-CAÍDO} ($ultimo)"
 done < sitios.txt
